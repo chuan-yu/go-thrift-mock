@@ -23,4 +23,6 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: run test
-        run: go test ./...
+        run: |
+          cd test
+          go test
