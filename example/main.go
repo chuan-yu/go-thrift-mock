@@ -58,6 +58,8 @@ func runClient(serverAddr string) error {
 }
 
 func main() {
+
+	// create and start mock server
 	serverAddr := ":8888"
 	s := server.MustNewMockServer(serverAddr)
 
@@ -70,21 +72,28 @@ func main() {
 
 	time.Sleep(1 * time.Second)
 
-	// result := resources.HelloServiceSayHelloResult{
-	// 	Success: &resources.Response{
-	// 		Code: 200,
-	// 		ResponseMsg: "mock message",
-	// 	},
-	// }
-	expectedReturn := server.ExpectedReturn{
-		// Result: &result,
-		Err: errors.New("mock error"),
+	// mock success response
+	result := resources.Response{
+		Code: 200,
+		ResponseMsg: "mock message",
 	}
-
+	expectedReturn := server.ExpectedReturn{
+		Response: &result,
+	}
 	s.SetExpectedReturn("sayHello", expectedReturn)
-	
 	if err := runClient(serverAddr); err != nil {
 		panic("failed to run client: " + err.Error())
 	}
+
+	// mock error response
+	expectedReturn = server.ExpectedReturn{
+		Err: errors.New("mock error"),
+	}
+	s.SetExpectedReturn("sayHello", expectedReturn)
+	if err := runClient(serverAddr); err != nil {
+		panic("failed to run client: " + err.Error())
+	}
+
+	// stop the mock server
 	s.Stop()
 }

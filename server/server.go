@@ -9,7 +9,7 @@ import (
 
 type ExpectedReturn struct {
 	Err error
-	Result thrift.TStruct
+	Response thrift.TStruct
 }
 
 type MockServer struct {
@@ -49,9 +49,11 @@ func (s *MockServer) Stop() {
 }
 
 func (s *MockServer) SetExpectedReturn(methodName string, expected ExpectedReturn) {
+
+	r := processor.NewMockResult(methodName, expected.Response)
 	processFunc := processor.MockProcessorFunction{
 		MethodName: methodName,
-		Result: expected.Result,
+		Result: r,
 		Err: expected.Err,
 	}
 	s.processor.AddToProcessorMap(methodName, &processFunc)
