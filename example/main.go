@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/apache/thrift/lib/go/thrift"
-	"github.com/chuan-yu/go-thrift-mock/resouces/gen-go/resources"
+	"github.com/chuan-yu/go-thrift-mock/resources/gen-go/resources"
 	"github.com/chuan-yu/go-thrift-mock/server"
 )
 
