@@ -12,7 +12,7 @@ go get https://github.com/chuan-yu/go-thrift-mock
 
 ## Quick Start
 ### Start a mock server instance
-```
+```go
 serverAddr := ":8888"
 s := server.MustNewMockServer(serverAddr)
 
@@ -29,7 +29,7 @@ time.Sleep(1 * time.Second)
 ### Set expected return
 
 Assume you have an IDL below.
-```
+```thrift
 struct Request{
     1:optional string msg,
 }
@@ -45,7 +45,7 @@ service HelloService {
 ```
 
 To set the `sayHello` method to return a mock `Response` instance:
-```
+```go
 result := Response{
     Code: 200,
     ResponseMsg: "mock message",
@@ -59,14 +59,14 @@ s.SetExpectedReturn("sayHello", expectedReturn)
 Now when a client calls the server, the above mock response is returned.
 
 You can also mock an error response:
-```
+```go
 expectedReturn = server.ExpectedReturn{
     Err: errors.New("mock error"),
 }
 s.SetExpectedReturn("sayHello", expectedReturn)
 ```
 ### Stop the mock server
-```
+```go
 s.Stop()
 ```
 
